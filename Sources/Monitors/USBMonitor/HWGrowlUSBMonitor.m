@@ -114,7 +114,7 @@ static void usbDeviceRemoved(void *refCon, io_iterator_t iterator);
 	
     NSData *iconData = nil;
     NSString *imageName = added ? @"USB-On" : @"USB-Off";
-    NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:@"tif"];
+    NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:@"webp"];
     iconData = [NSData dataWithContentsOfFile:imagePath];
 	[delegate notifyWithName:added ? @"USBConnected" : @"USBDisconnected"
 							 title:title

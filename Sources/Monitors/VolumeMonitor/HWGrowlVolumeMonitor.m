@@ -22,7 +22,8 @@
 	static NSImage *_ejectIconImage = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		_ejectIconImage = [[NSImage imageNamed:@"DisksVolumes-Eject"] retain];
+		NSString *path = [[NSBundle mainBundle] pathForResource:@"DisksVolumes-Eject" ofType:@"webp"];
+		_ejectIconImage = [[NSImage alloc] initWithContentsOfFile:path];
 	});
 	return _ejectIconImage;
 }

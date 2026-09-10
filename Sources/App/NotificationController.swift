@@ -29,6 +29,7 @@ import UserNotifications
               let tiff = image.tiffRepresentation,
               let rep = NSBitmapImageRep(data: tiff),
               let png = rep.representation(using: .png, properties: [:]) else {
+            Log.notifications.error("could not decode \(data.count) bytes of icon data")
             return nil
         }
         let url = Self.attachmentDirectory.appendingPathComponent(UUID().uuidString + ".png")
@@ -36,6 +37,7 @@ import UserNotifications
             try png.write(to: url)
             return try UNNotificationAttachment(identifier: "", url: url, options: nil)
         } catch {
+            Log.notifications.error("attachment write failed: \(error.localizedDescription, privacy: .public)")
             return nil
         }
     }

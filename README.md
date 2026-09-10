@@ -39,7 +39,7 @@ Sources/App/          SwiftUI app, AppDelegate, Preferences, NotificationControl
 Sources/App/Views/    Settings window (General + Modules tabs) and per-monitor panes
 Sources/PluginKit/    HardwareGrowlPlugin.h (plugin contract), GrowlNetworkUtilities, bridging + compat headers
 Sources/Monitors/     the 8 Objective-C hardware monitors, ported from Extras/HardwareGrowler
-Resources/            .icns, menu-bar icons, flattened notification icons
+Resources/            .icns, menu-bar icons, notification icons (lossless WebP)
 ```
 
 ## Architecture notes

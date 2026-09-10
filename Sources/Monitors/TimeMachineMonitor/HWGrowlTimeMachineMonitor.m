@@ -134,7 +134,7 @@
 		else
 			description = NSLocalizedString(@"First backup, or no previous backup found in the system log", @"");
         
-        NSString *iconPath = [[NSBundle mainBundle] resourceNamed:@"TimeMachine-On" ofType:@"tif"];
+        NSString *iconPath = [[NSBundle mainBundle] pathForResource:@"TimeMachine-On" ofType:@"webp"];
         NSData *iconData = [NSData dataWithContentsOfFile:iconPath];
 		[blockSelf->delegate notifyWithName:@"TimeMachineStart"
 												title:NSLocalizedString(@"Time Machine started", @"") 
@@ -204,7 +204,7 @@
 				if (postGrowlNotifications) {
 					dispatch_async(dispatch_get_main_queue(), ^{
 						NSString *timeString = [blockSelf stringWithTimeInterval:[blockSelf->lastEndTime timeIntervalSinceDate:blockSelf->lastStartTime]];
-                        NSString *iconPath = [[NSBundle mainBundle] resourceNamed:@"TimeMachine-Off" ofType:@"tif"];
+                        NSString *iconPath = [[NSBundle mainBundle] pathForResource:@"TimeMachine-Off" ofType:@"webp"];
                         NSData *iconData = [NSData dataWithContentsOfFile:iconPath];
                         [blockSelf->delegate notifyWithName:@"TimeMachineFinish"
 																title:NSLocalizedString(@"Time Machine finished", @"")
@@ -232,7 +232,7 @@
 							description = [NSString stringWithFormat:NSLocalizedString(@"Failed after %@", @""), timeString];
 						else
 							description = [NSString stringWithFormat:NSLocalizedString(@"Canceled after %@", @""), timeString];
-                        NSString *iconPath = [[NSBundle mainBundle] resourceNamed:@"TimeMachine-Failed" ofType:@"tif"];
+                        NSString *iconPath = [[NSBundle mainBundle] pathForResource:@"TimeMachine-Failed" ofType:@"webp"];
                         NSData *iconData = [NSData dataWithContentsOfFile:iconPath];
 
 						[blockSelf->delegate notifyWithName:wasFailure ? @"TimeMachineFailed" : @"TimeMachineCanceled"

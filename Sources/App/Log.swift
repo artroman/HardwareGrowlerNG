@@ -3,10 +3,13 @@
 //  HardwareGrowler
 //
 
+import Foundation
 import OSLog
 
 enum Log {
-    static let app = Logger(subsystem: "com.hwgrowler.HardwareGrowler", category: "app")
-    static let monitors = Logger(subsystem: "com.hwgrowler.HardwareGrowler", category: "monitors")
-    static let notifications = Logger(subsystem: "com.hwgrowler.HardwareGrowler", category: "notifications")
+    private static let subsystem = Bundle.main.bundleIdentifier ?? "HardwareGrowler"
+
+    static let app = Logger(subsystem: subsystem, category: "app")
+    static let monitors = Logger(subsystem: subsystem, category: "monitors")
+    static let notifications = Logger(subsystem: subsystem, category: "notifications")
 }

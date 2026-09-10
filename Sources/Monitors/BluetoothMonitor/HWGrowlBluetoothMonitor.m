@@ -76,7 +76,7 @@
 	NSString *title = connected ? NSLocalizedString(@"Bluetooth Connection", @"") : NSLocalizedString(@"Bluetooth Disconnection", @"");
 	
     NSString *imageName = (connected ? @"Bluetooth-On" : @"Bluetooth-Off");
-    NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:@"tif"];
+    NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:@"webp"];
     NSData *iconData = [NSData dataWithContentsOfFile:imagePath];
     
 	[delegate notifyWithName:connected ? @"BluetoothConnected" : @"BluetoothDisconnected"

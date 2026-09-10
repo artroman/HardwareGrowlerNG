@@ -150,7 +150,7 @@ self.NAME ## Flag = NAME;
 	if(![enabled boolValue])
 		return;
 	
-    NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:@"tif"];
+    NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:@"webp"];
     NSData *iconData = [NSData dataWithContentsOfFile:imagePath];
     [delegate notifyWithName:name
                        title:title

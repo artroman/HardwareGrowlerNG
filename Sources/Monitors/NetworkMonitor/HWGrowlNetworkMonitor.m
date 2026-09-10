@@ -212,7 +212,7 @@ typedef enum {
 }
 
 -(void)airportDisconnected:(NSString*)networkName {
-    NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"Network-Wifi-Off" ofType:@"tif"];
+    NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"Network-Wifi-Off" ofType:@"webp"];
     NSData *iconData = [NSData dataWithContentsOfFile:imagePath];
     [delegate notifyWithName:@"AirportDisconnected"
 							 title:NSLocalizedString(@"AirPort Disconnected", @"")
@@ -238,7 +238,7 @@ typedef enum {
 									 bssid];
 	
     
-    NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"Network-Wifi-4" ofType:@"tif"];
+    NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"Network-Wifi-4" ofType:@"webp"];
     NSData *iconData = [NSData dataWithContentsOfFile:imagePath];
 
 	[delegate notifyWithName:@"AirportConnected"
@@ -276,7 +276,7 @@ typedef enum {
 		imageName = @"Network-Ethernet-Off";
 	}
 	
-    NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:@"tif"];
+    NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:@"webp"];
     NSData *iconData = [NSData dataWithContentsOfFile:imagePath];
    
 	if(noteName){
@@ -372,7 +372,7 @@ typedef enum {
 		imageName = @"Network-Generic-On";
 	}
 
-    NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:@"tif"];
+    NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:@"webp"];
     NSData *iconData = [NSData dataWithContentsOfFile:imagePath];
 	[delegate notifyWithName:@"IPAddressChange"
 							 title:NSLocalizedString(@"IP Addresses Updated", @"")

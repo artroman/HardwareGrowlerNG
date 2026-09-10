@@ -34,7 +34,7 @@ targets:
       - path: Resources
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.hwgrowler.HardwareGrowler
+        PRODUCT_BUNDLE_IDENTIFIER: com.growl.HardwareGrowler
         # Distinct from the legacy /Applications/HardwareGrowler.app during dev.
         PRODUCT_NAME: HardwareGrowlerNG
         INFOPLIST_FILE: Sources/App/Info.plist
