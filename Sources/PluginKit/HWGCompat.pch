@@ -1,0 +1,43 @@
+//
+//  HWGCompat.pch
+//  Prefix header, ObjC only. Bridges 2012-era symbol names used by the
+//  ported hardware monitors to their modern SDK equivalents so the legacy
+//  .m files compile unmodified.
+//
+
+#ifdef __OBJC__
+
+#import <Foundation/Foundation.h>
+#import <AppKit/AppKit.h>
+
+// IOKit renamed the default port constant; the old name is still defined but
+// deprecated. Alias it so intent stays clear and warnings stay off.
+#ifndef kIOMasterPortDefault
+#define kIOMasterPortDefault kIOMainPortDefault
+#endif
+
+// NSBitmapImageRep file-type enum renames (VolumeMonitor).
+#ifndef NSPNGFileType
+#define NSPNGFileType NSBitmapImageFileTypePNG
+#endif
+
+// NSCompositingOperation renames (VolumeMonitor).
+#ifndef NSCompositeSourceOver
+#define NSCompositeSourceOver NSCompositingOperationSourceOver
+#endif
+
+// NSEvent mask / modifier-flag renames (KeyboardMonitor).
+#ifndef NSFlagsChangedMask
+#define NSFlagsChangedMask NSEventMaskFlagsChanged
+#endif
+#ifndef NSAlphaShiftKeyMask
+#define NSAlphaShiftKeyMask NSEventModifierFlagCapsLock
+#endif
+#ifndef NSFunctionKeyMask
+#define NSFunctionKeyMask NSEventModifierFlagFunction
+#endif
+#ifndef NSShiftKeyMask
+#define NSShiftKeyMask NSEventModifierFlagShift
+#endif
+
+#endif /* __OBJC__ */
