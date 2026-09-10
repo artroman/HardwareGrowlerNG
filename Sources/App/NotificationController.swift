@@ -91,7 +91,7 @@ extension NotificationController: HWGrowlPluginControllerProtocol {
     }
 
     func onLaunchEnabled() -> Bool {
-        Preferences.shared.showExistingAtLaunch
+        Defaults.showExistingAtLaunch
     }
 
     func pluginDisabled(_ plugin: Any?) -> Bool {

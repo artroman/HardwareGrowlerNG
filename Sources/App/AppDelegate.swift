@@ -14,9 +14,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var controller: NotificationController?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        let prefs = Preferences.shared
-        prefs.syncLoginItemStatus()
-        prefs.applyActivationPolicy()
+        Defaults.registerDefaults()
+        Defaults.syncLoginItem()
+        Defaults.applyActivationPolicy()
 
         let center = UNUserNotificationCenter.current()
         let registry = MonitorRegistry.shared
@@ -33,16 +33,24 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         registry.start(with: controller)
-        Log.app.info("started \(registry.monitors.count) monitors: \(registry.monitors.map { "\($0.id)=\(registry.isEnabled($0.id) ? "on" : "off")" }.joined(separator: ", "), privacy: .public)")
-        if prefs.showExistingAtLaunch {
+        Log.app.info("started monitors: \(registry.monitors.map { "\($0.id)=\(registry.isEnabled($0.id) ? "on" : "off")" }.joined(separator: ", "), privacy: .public)")
+        if Defaults.showExistingAtLaunch {
             registry.fireOnLaunchNotes()
         }
     }
 
-    // Re-opening the app from Finder / Dock opens Preferences.
+    // Re-opening the app from Finder / Dock brings up Preferences. Prefer
+    // fronting an already-open Settings window; only ask SwiftUI to create one
+    // otherwise (that path logs a benign "use SettingsLink" diagnostic).
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
         NSApp.activate(ignoringOtherApps: true)
-        NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+        if let settings = NSApp.windows.first(where: {
+            $0.frameAutosaveName == "com_apple_SwiftUI_Settings_window"
+        }) {
+            settings.makeKeyAndOrderFront(nil)
+        } else {
+            NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+        }
         return true
     }
 }

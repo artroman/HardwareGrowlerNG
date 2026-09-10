@@ -30,6 +30,8 @@ final class MonitorRegistry: ObservableObject {
     @Published private(set) var enabledByID: [String: Bool] = [:]
 
     private let plugins: [String: any HardwareMonitor]
+    private var started: Set<String> = []
+    private weak var controller: NotificationController?
     private let defaults = UserDefaults.standard
     private let disabledKey = "DisabledPlugins"
 
@@ -63,14 +65,16 @@ final class MonitorRegistry: ObservableObject {
     // MARK: - Lifecycle
 
     func start(with controller: NotificationController) {
+        self.controller = controller
         for plugin in plugins.values {
             plugin.setDelegate(controller)
         }
-        // Monitors set up their observers here (matches the old
-        // -postRegistrationInit pass). Disabled monitors still observe; their
-        // notifications are dropped by NotificationController.
-        for plugin in plugins.values {
+        // Only bring up monitors that are enabled. Some (Keyboard, Time Machine)
+        // request TCC permission in -postRegistrationInit, so a disabled monitor
+        // must stay dormant until the user turns it on.
+        for (id, plugin) in plugins where isEnabled(id) {
             plugin.postRegistrationInit?()
+            started.insert(id)
         }
     }
 
@@ -104,6 +108,10 @@ final class MonitorRegistry: ObservableObject {
         enabledByID[id] = enabled
 
         if enabled {
+            if !started.contains(id), controller != nil {
+                plugins[id]?.postRegistrationInit?()
+                started.insert(id)
+            }
             plugins[id]?.startObserving?()
         } else {
             plugins[id]?.stopObserving?()
