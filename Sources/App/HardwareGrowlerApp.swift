@@ -15,8 +15,8 @@ struct HardwareGrowlerApp: App {
 
     var body: some Scene {
         MenuBarExtra(isInserted: $showMenuBarIcon) {
-            SettingsLink {
-                Text("HardwareGrowler Preferences…")
+            Button("HardwareGrowler Preferences…") {
+                SettingsWindow.show()
             }
             .keyboardShortcut(",", modifiers: .command)
 

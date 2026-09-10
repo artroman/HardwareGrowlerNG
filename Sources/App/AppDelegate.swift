@@ -39,18 +39,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    // Re-opening the app from Finder / Dock brings up Preferences. Prefer
-    // fronting an already-open Settings window; only ask SwiftUI to create one
-    // otherwise (that path logs a benign "use SettingsLink" diagnostic).
+    // Re-opening the app from Finder / Dock brings up Preferences.
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
-        NSApp.activate(ignoringOtherApps: true)
-        if let settings = NSApp.windows.first(where: {
-            $0.frameAutosaveName == "com_apple_SwiftUI_Settings_window"
-        }) {
-            settings.makeKeyAndOrderFront(nil)
-        } else {
-            NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
-        }
+        SettingsWindow.show()
         return true
     }
 }
