@@ -13,25 +13,32 @@ struct ModulesTab: View {
     @State private var selection: String?
 
     var body: some View {
-        HSplitView {
-            List(registry.monitors, id: \.id, selection: $selection) { monitor in
-                HStack(spacing: 8) {
-                    Image(systemName: monitor.symbolName)
-                        .frame(width: 18)
-                        .foregroundStyle(.tint)
-                    Text(monitor.displayName)
-                    Spacer()
-                    Toggle("", isOn: registry.binding(for: monitor.id))
-                        .labelsHidden()
-                        .toggleStyle(.checkbox)
+        // A plain HStack + Divider keeps the separator within the content area.
+        // HSplitView draws its divider across the whole window, up behind the
+        // tab bar.
+        HStack(spacing: 0) {
+            List(selection: $selection) {
+                ForEach(registry.monitors) { monitor in
+                    HStack(spacing: 8) {
+                        Image(systemName: monitor.symbolName)
+                            .frame(width: 18)
+                            .foregroundStyle(.tint)
+                        Text(monitor.displayName)
+                        Spacer(minLength: 8)
+                        Toggle("", isOn: registry.binding(for: monitor.id))
+                            .labelsHidden()
+                            .toggleStyle(.checkbox)
+                    }
+                    .tag(monitor.id)
                 }
-                .tag(monitor.id)
             }
             .listStyle(.inset)
-            .frame(minWidth: 200, idealWidth: 220, maxWidth: 300)
+            .frame(width: 220)
+
+            Divider()
 
             detail
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
                 .padding()
         }
     }

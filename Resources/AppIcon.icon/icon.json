@@ -1,18 +1,22 @@
 {
   "fill" : {
-    "automatic-gradient" : "display-p3:0.76471,0.59608,0.38039,1.00000"
+    "linear-gradient" : [
+      "display-p3:0.67451,0.54510,0.23922,1.00000",
+      "display-p3:0.91765,0.81569,0.52941,1.00000"
+    ]
   },
   "groups" : [
     {
       "layers" : [
         {
-          "image-name" : "HWGrowler.png",
-          "name" : "HWGrowler",
+          "glass" : false,
+          "image-name" : "AppIcon.png",
+          "name" : "AppIcon",
           "position" : {
-            "scale" : 0.9,
+            "scale" : 1.28,
             "translation-in-points" : [
               0,
-              0
+              -8
             ]
           }
         }
