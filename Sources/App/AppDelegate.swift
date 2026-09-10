@@ -41,7 +41,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     // Re-opening the app from Finder / Dock brings up Preferences.
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
-        SettingsWindow.show()
+        SettingsLauncher.shared.launch()
         return true
     }
 }
