@@ -45,9 +45,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    // Re-opening the app from Finder / Dock brings up Preferences.
+    // Re-opening the app from Finder / Dock brings up Preferences. A
+    // notification click also lands here, so wait a beat and bail if a
+    // notification interaction just happened.
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
-        SettingsLauncher.shared.launch()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+            if Date().timeIntervalSince(NotificationController.lastInteractionAt) > 0.6 {
+                SettingsLauncher.shared.launch()
+            }
+        }
         return true
     }
 }

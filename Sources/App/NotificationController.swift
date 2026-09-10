@@ -12,6 +12,11 @@ import UserNotifications
 @objc final class NotificationController: NSObject {
     private let registry: MonitorRegistry
 
+    /// When the user last interacted with one of our notifications. Used by the
+    /// AppDelegate to tell a notification click apart from a Dock/Finder reopen
+    /// (both call applicationShouldHandleReopen).
+    @objc static private(set) var lastInteractionAt: Date = .distantPast
+
     init(registry: MonitorRegistry) {
         self.registry = registry
         super.init()
@@ -114,10 +119,14 @@ extension NotificationController: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
-        let info = response.notification.request.content.userInfo
-        if let pluginClass = info["pluginClass"] as? String,
-           let context = info["context"] as? String {
-            registry.notifyClosed(pluginClass: pluginClass, context: context, byClick: true)
+        Self.lastInteractionAt = Date()
+
+        if response.actionIdentifier == UNNotificationDefaultActionIdentifier {
+            let info = response.notification.request.content.userInfo
+            if let pluginClass = info["pluginClass"] as? String,
+               let context = info["context"] as? String {
+                registry.notifyClosed(pluginClass: pluginClass, context: context, byClick: true)
+            }
         }
         completionHandler()
     }

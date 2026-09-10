@@ -355,10 +355,10 @@
 }
 -(void)noteClosed:(NSString*)contextString byClick:(BOOL)clicked {
 	if(clicked && [contextString length]) {
-		// Reveal in Finder rather than -openFile: — the latter has this process
-		// read the removable volume, which triggers a macOS privacy prompt.
-		NSURL *url = [NSURL fileURLWithPath:contextString];
-		[[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[url]];
+		// Open a Finder window showing the volume's contents. Passing nil as the
+		// file opens the folder itself; -openFile:/-openURL: would instead have
+		// this process read the removable volume and trip a macOS privacy prompt.
+		[[NSWorkspace sharedWorkspace] selectFile:nil inFileViewerRootedAtPath:contextString];
 	}
 }
 
