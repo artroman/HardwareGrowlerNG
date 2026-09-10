@@ -38,6 +38,7 @@ targets:
         # Distinct from the legacy /Applications/HardwareGrowler.app during dev.
         PRODUCT_NAME: HardwareGrowlerNG
         INFOPLIST_FILE: Sources/App/Info.plist
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         CODE_SIGN_ENTITLEMENTS: Sources/App/HardwareGrowlerNG.entitlements
         SWIFT_OBJC_BRIDGING_HEADER: Sources/PluginKit/HardwareGrowlerNG-Bridging-Header.h
         GCC_PREFIX_HEADER: Sources/PluginKit/HWGCompat.pch
