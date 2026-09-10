@@ -24,11 +24,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         self.controller = controller
         center.delegate = controller
 
+        center.getNotificationSettings { settings in
+            Log.notifications.info("settings before request: authorization=\(settings.authorizationStatus.rawValue) alert=\(settings.alertSetting.rawValue)")
+        }
         center.requestAuthorization(options: [.alert, .sound]) { granted, error in
-            if let error {
-                NSLog("HardwareGrowler: notification authorization error: \(error)")
-            } else if !granted {
-                NSLog("HardwareGrowler: notification authorization denied")
+            if let error = error as NSError? {
+                Log.notifications.error("authorization error: \(error.domain, privacy: .public) \(error.code) — \(error.localizedDescription, privacy: .public)")
+            } else {
+                Log.notifications.info("authorization granted=\(granted)")
+            }
+            center.getNotificationSettings { settings in
+                Log.notifications.info("settings after request: authorization=\(settings.authorizationStatus.rawValue) alert=\(settings.alertSetting.rawValue)")
             }
         }
 

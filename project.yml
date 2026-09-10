@@ -34,13 +34,21 @@ targets:
       - path: Resources
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.growl.HardwareGrowlerNG
-        PRODUCT_NAME: HardwareGrowler
+        PRODUCT_BUNDLE_IDENTIFIER: com.hwgrowler.HardwareGrowler
+        # Distinct from the legacy /Applications/HardwareGrowler.app during dev.
+        PRODUCT_NAME: HardwareGrowlerNG
         INFOPLIST_FILE: Sources/App/Info.plist
         CODE_SIGN_ENTITLEMENTS: Sources/App/HardwareGrowlerNG.entitlements
         SWIFT_OBJC_BRIDGING_HEADER: Sources/PluginKit/HardwareGrowlerNG-Bridging-Header.h
         GCC_PREFIX_HEADER: Sources/PluginKit/HWGCompat.pch
-        CODE_SIGN_STYLE: Automatic
+        # Sign with a stable identity, not ad-hoc. UNUserNotificationCenter keys
+        # authorization off the app's designated requirement; ad-hoc re-signs
+        # every build, so macOS kept marking the "new" app as denied.
+        CODE_SIGN_STYLE: Manual
+        CODE_SIGN_IDENTITY: "Apple Development"
+        DEVELOPMENT_TEAM: XNAZEWFH6C
+        PROVISIONING_PROFILE_SPECIFIER: ""
+        OTHER_CODE_SIGN_FLAGS: "--options runtime"
         MARKETING_VERSION: "3.0"
         # arm64 first; a Release build produces a universal (arm64 + x86_64) binary.
         ARCHS: "$(ARCHS_STANDARD)"
