@@ -62,7 +62,7 @@ private struct NotificationStatusSection: View {
     @State private var status: UNAuthorizationStatus = .notDetermined
 
     var body: some View {
-        Section("Notifications") {
+        Section {
             HStack {
                 Image(systemName: iconName)
                     .foregroundStyle(iconColor)
@@ -74,6 +74,18 @@ private struct NotificationStatusSection: View {
             Button("Send Test Notification") {
                 NotificationAuth.sendTestNotification()
             }
+
+            Button("Open Notification Settings…") {
+                NotificationAuth.openSystemSettings()
+            }
+        } header: {
+            Text("Notifications")
+        } footer: {
+            Text("If a test notification plays a sound but shows no banner, its "
+                 + "Alert Style is set to “None” — Open Notification Settings above "
+                 + "and change it to Banners or Alerts.")
+            .font(.callout)
+            .foregroundStyle(.secondary)
         }
         .onAppear(perform: refresh)
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
@@ -83,18 +95,11 @@ private struct NotificationStatusSection: View {
 
     @ViewBuilder
     private var actionButton: some View {
-        switch status {
-        case .notDetermined:
+        if status == .notDetermined {
             Button("Request Permission") {
                 NotificationAuth.request()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) { refresh() }
             }
-        case .denied:
-            Button("Open Notification Settings…") {
-                NotificationAuth.openSystemSettings()
-            }
-        default:
-            EmptyView()
         }
     }
 
