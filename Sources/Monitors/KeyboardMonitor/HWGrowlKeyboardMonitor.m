@@ -7,6 +7,7 @@
 //
 
 #import "HWGrowlKeyboardMonitor.h"
+#import <IOKit/hid/IOHIDLib.h>
 
 @interface HWGrowlKeyboardMonitor ()
 
@@ -84,7 +85,15 @@
 
 -(void) listen
 {
-	
+	// -addGlobalMonitorForEventsMatchingMask: does NOT by itself trigger macOS's
+	// Input Monitoring authorization UI — it just silently receives nothing
+	// until the app is granted access. IOHIDRequestAccess is what actually
+	// shows the system prompt the first time (and blocks until answered).
+	BOOL granted = IOHIDRequestAccess(kIOHIDRequestTypeListenEvent);
+	if (!granted)
+		NSLog(@"HardwareGrowler: Input Monitoring access not granted for Keyboard Monitor "
+				"(System Settings > Privacy & Security > Input Monitoring)");
+
 	NSEvent* (^myHandler)(NSEvent*) = ^(NSEvent* event)
 	{
 		//		NSLog(@"flags changed");

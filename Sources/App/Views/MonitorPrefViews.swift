@@ -9,6 +9,7 @@
 //
 
 import SwiftUI
+import IOKit.hid
 
 // MARK: - Keyboard
 
@@ -29,10 +30,12 @@ struct KeyboardPrefsView: View {
                 Text("Notify For")
             } footer: {
                 Text("Watching modifier keys globally requires Input Monitoring "
-                     + "permission, which macOS will prompt for.")
+                     + "permission (below).")
                 .font(.callout)
                 .foregroundStyle(.secondary)
             }
+
+            InputMonitoringStatusSection()
         }
         .formStyle(.grouped)
         .onChange(of: capsLock) { _, value in Self.write("capslock", value) }
@@ -49,6 +52,71 @@ struct KeyboardPrefsView: View {
         var dict = UserDefaults.standard.dictionary(forKey: key) as? [String: Bool] ?? [:]
         dict[subKey] = value
         UserDefaults.standard.set(dict, forKey: key)
+    }
+}
+
+private struct InputMonitoringStatusSection: View {
+    @State private var status: IOHIDAccessType = InputMonitoringAuth.status
+
+    var body: some View {
+        Section("Input Monitoring") {
+            HStack {
+                Image(systemName: iconName)
+                    .foregroundStyle(iconColor)
+                Text(statusText)
+                Spacer()
+                actionButton
+            }
+        }
+        .onAppear(perform: refresh)
+        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
+            refresh()
+        }
+    }
+
+    @ViewBuilder
+    private var actionButton: some View {
+        switch status {
+        case kIOHIDAccessTypeUnknown:
+            Button("Request Access") {
+                _ = InputMonitoringAuth.request()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) { refresh() }
+            }
+        case kIOHIDAccessTypeDenied:
+            Button("Open Input Monitoring Settings…") {
+                InputMonitoringAuth.openSystemSettings()
+            }
+        default:
+            EmptyView()
+        }
+    }
+
+    private var statusText: String {
+        switch status {
+        case kIOHIDAccessTypeGranted: return "Access granted"
+        case kIOHIDAccessTypeDenied: return "Access denied for HardwareGrowler"
+        default: return "Access not requested yet"
+        }
+    }
+
+    private var iconName: String {
+        switch status {
+        case kIOHIDAccessTypeGranted: return "checkmark.circle.fill"
+        case kIOHIDAccessTypeDenied: return "exclamationmark.triangle.fill"
+        default: return "questionmark.circle"
+        }
+    }
+
+    private var iconColor: Color {
+        switch status {
+        case kIOHIDAccessTypeGranted: return .green
+        case kIOHIDAccessTypeDenied: return .orange
+        default: return .secondary
+        }
+    }
+
+    private func refresh() {
+        status = InputMonitoringAuth.status
     }
 }
 
