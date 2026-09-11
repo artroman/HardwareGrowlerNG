@@ -20,9 +20,13 @@ struct SettingsView: View {
                 .environmentObject(registry)
                 .tabItem { Label("Modules", systemImage: "gearshape.2") }
         }
-        .frame(width: 540, height: 420)
+        .frame(width: 540, height: 430)
         .onAppear {
             SettingsLauncher.shared.openSettings = { openSettings() }
         }
     }
+}
+
+#Preview("Settings Window") {
+    SettingsView()
 }

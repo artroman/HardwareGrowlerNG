@@ -38,13 +38,13 @@ final class MonitorRegistry: ObservableObject {
     private init() {
         let specs: [(id: String, symbol: String, plugin: any HardwareMonitor)] = [
             ("USBMonitor",         "cable.connector",        HWGrowlUSBMonitor()),
-            ("BluetoothMonitor",   "dot.radiowaves.right",   HWGrowlBluetoothMonitor()),
+            ("VolumeMonitor",      "externaldrive",          HWGrowlVolumeMonitor()),
             ("NetworkMonitor",     "network",                HWGrowlNetworkMonitor()),
             ("PowerMonitor",       "bolt.fill",              HWGrowlPowerMonitor()),
+            ("KeyboardMonitor",    "keyboard",               HWGrowlKeyboardMonitor()),
+            ("BluetoothMonitor",   "dot.radiowaves.right",   HWGrowlBluetoothMonitor()),
             ("ThunderboltMonitor", "bolt.horizontal.circle", HWGrowlThunderboltMonitor()),
             ("TimeMachineMonitor", "clock.arrow.circlepath", HWGrowlTimeMachineMonitor()),
-            ("VolumeMonitor",      "externaldrive",          HWGrowlVolumeMonitor()),
-            ("KeyboardMonitor",    "keyboard",               HWGrowlKeyboardMonitor()),
         ]
 
         monitors = specs.map {

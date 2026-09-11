@@ -61,3 +61,9 @@ struct ModulesTab: View {
         }
     }
 }
+
+#Preview("Modules") {
+    ModulesTab()
+        .environmentObject(MonitorRegistry.shared)
+        .frame(width: 540, height: 420)
+}

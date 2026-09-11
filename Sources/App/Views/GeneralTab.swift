@@ -53,6 +53,11 @@ struct GeneralTab: View {
     }
 }
 
+#Preview("General") {
+    GeneralTab()
+        .frame(width: 540, height: 420)
+}
+
 private struct NotificationStatusSection: View {
     @State private var status: UNAuthorizationStatus = .notDetermined
 

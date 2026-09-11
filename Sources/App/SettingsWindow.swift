@@ -71,3 +71,9 @@ enum MenuBarIcon {
         return image
     }()
 }
+
+#Preview("Menu Bar Icon") {
+    MenuBarLabel()
+        .padding()
+        .frame(width: 60, height: 60)
+}

@@ -66,6 +66,7 @@ struct PowerPrefsView: View {
 
                 HStack {
                     Text("Refire every")
+                    Spacer()
                     TextField("", value: $refireMinutes, format: .number)
                         .frame(width: 60)
                         .multilineTextAlignment(.trailing)
@@ -139,4 +140,22 @@ struct VolumePrefsView: View {
         let raw = entries.map { ["justastring": $0] }
         UserDefaults.standard.set(raw, forKey: Self.key)
     }
+}
+
+// MARK: - Previews
+
+#Preview("Keyboard") {
+    KeyboardPrefsView()
+        .frame(width: 420, height: 220)
+}
+
+#Preview("Power") {
+    PowerPrefsView()
+        .frame(width: 420, height: 220)
+}
+
+#Preview("Volume") {
+    VolumePrefsView()
+        .padding()
+        .frame(width: 420, height: 280)
 }
