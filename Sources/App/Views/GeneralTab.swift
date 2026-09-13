@@ -81,9 +81,10 @@ private struct NotificationStatusSection: View {
         } header: {
             Text("Notifications")
         } footer: {
-            Text("If a test notification plays a sound but shows no banner, its "
-                 + "Alert Style is set to “None” — Open Notification Settings above "
-                 + "and change it to Banners or Alerts.")
+            Text("A test notification plays a sound but shows no banner while this "
+                 + "window is frontmost — macOS doesn't banner the app you're currently "
+                 + "looking at. Switch to another app first to see it, or check "
+                 + "Notification Settings above if it's still missing.")
             .font(.callout)
             .foregroundStyle(.secondary)
         }
