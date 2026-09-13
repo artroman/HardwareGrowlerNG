@@ -94,7 +94,7 @@ private struct InputMonitoringStatusSection: View {
     private var statusText: String {
         switch status {
         case kIOHIDAccessTypeGranted: return "Access granted"
-        case kIOHIDAccessTypeDenied: return "Access denied for HardwareGrowler"
+        case kIOHIDAccessTypeDenied: return "Access denied"
         default: return "Access not requested yet"
         }
     }
@@ -182,6 +182,7 @@ struct VolumePrefsView: View {
                     save()
                 } label: {
                     Image(systemName: "plus")
+                        .frame(width: 16, height: 16)
                 }
 
                 Button {
@@ -192,6 +193,7 @@ struct VolumePrefsView: View {
                     }
                 } label: {
                     Image(systemName: "minus")
+                        .frame(width: 16, height: 16)
                 }
                 .disabled(selection == nil)
             }
@@ -214,16 +216,16 @@ struct VolumePrefsView: View {
 
 #Preview("Keyboard") {
     KeyboardPrefsView()
-        .frame(width: 420, height: 220)
+        .frame(width: 420, height: 320)
 }
 
 #Preview("Power") {
     PowerPrefsView()
-        .frame(width: 420, height: 220)
+        .frame(width: 420, height: 320)
 }
 
 #Preview("Volume") {
     VolumePrefsView()
         .padding()
-        .frame(width: 420, height: 280)
+        .frame(width: 420, height: 320)
 }

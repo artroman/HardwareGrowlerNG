@@ -13,3 +13,5 @@
 #import "HWGrowlTimeMachineMonitor.h"
 #import "HWGrowlVolumeMonitor.h"
 #import "HWGrowlKeyboardMonitor.h"
+#import "HWGrowlFirewireMonitor.h"
+#import "HWGrowlPhoneMonitor.h"

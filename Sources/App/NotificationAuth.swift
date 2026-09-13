@@ -30,19 +30,4 @@ enum NotificationAuth {
             }
         }
     }
-
-    static func sendTestNotification() {
-        let content = UNMutableNotificationContent()
-        content.title = "HardwareGrowler"
-        content.body = "Test notification — if you can see this, notifications are working."
-        content.sound = .default
-        let request = UNNotificationRequest(identifier: "hwg.test.\(UUID().uuidString)",
-                                            content: content,
-                                            trigger: nil)
-        UNUserNotificationCenter.current().add(request) { error in
-            if let error {
-                Log.notifications.error("test notification failed: \(error.localizedDescription, privacy: .public)")
-            }
-        }
-    }
 }

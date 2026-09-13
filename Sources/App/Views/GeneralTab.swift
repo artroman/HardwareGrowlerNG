@@ -31,11 +31,6 @@ struct GeneralTab: View {
 
             Section {
                 Toggle("Show connected devices at launch", isOn: $showExistingAtLaunch)
-            } footer: {
-                Text("When enabled, HardwareGrowler posts a notification for every "
-                     + "device already connected when it starts up.")
-                .font(.callout)
-                .foregroundStyle(.secondary)
             }
 
             NotificationStatusSection()
@@ -55,7 +50,7 @@ struct GeneralTab: View {
 
 #Preview("General") {
     GeneralTab()
-        .frame(width: 540, height: 420)
+        .frame(width: 640, height: 510)
 }
 
 private struct NotificationStatusSection: View {
@@ -71,22 +66,11 @@ private struct NotificationStatusSection: View {
                 actionButton
             }
 
-            Button("Send Test Notification") {
-                NotificationAuth.sendTestNotification()
-            }
-
             Button("Open Notification Settings…") {
                 NotificationAuth.openSystemSettings()
             }
         } header: {
             Text("Notifications")
-        } footer: {
-            Text("A test notification plays a sound but shows no banner while this "
-                 + "window is frontmost — macOS doesn't banner the app you're currently "
-                 + "looking at. Switch to another app first to see it, or check "
-                 + "Notification Settings above if it's still missing.")
-            .font(.callout)
-            .foregroundStyle(.secondary)
         }
         .onAppear(perform: refresh)
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in

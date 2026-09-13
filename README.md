@@ -18,9 +18,10 @@ notification delivery.
 | Power        | ported (IOPowerSources) |
 | Thunderbolt  | ported (IOKit) |
 | Volume       | ported (NSWorkspace mount/unmount) |
-| Keyboard     | ported; global modifier watching needs **Input Monitoring** permission; off by default |
+| Keyboard     | ported; global modifier watching needs **Input Monitoring** permission (`IOHIDRequestAccess`, prompted when enabled); off by default |
 | Time Machine | ported but **inert** — it reads `com.apple.backupd` via ASL, which no longer carries those logs. Needs an `OSLogStore` rewrite. Off by default. |
-| FireWire / Phone | dropped (no Apple Silicon Mac has FireWire; Phone used Bluetooth HFP) |
+| FireWire     | ported, functional; off by default — no Apple Silicon Mac has a FireWire port |
+| Phone        | ported; off by default. Never fully finished upstream — `fireOnLaunchNotes` targets a placeholder device address and no call/SMS path actually posts a notification. Its old SDP-registration call (`IOBluetoothAddServiceDict`) no longer exists in the SDK and is skipped. |
 
 ## Build
 
@@ -38,8 +39,8 @@ The `.xcodeproj` is generated and git-ignored — edit `project.yml`, not the pr
 Sources/App/          SwiftUI app, AppDelegate, Preferences, NotificationController, MonitorRegistry
 Sources/App/Views/    Settings window (General + Modules tabs) and per-monitor panes
 Sources/PluginKit/    HardwareGrowlPlugin.h (plugin contract), GrowlNetworkUtilities, bridging + compat headers
-Sources/Monitors/     the 8 Objective-C hardware monitors, ported from Extras/HardwareGrowler
-Resources/            .icns, menu-bar icons, notification icons (lossless WebP)
+Sources/Monitors/     the 10 Objective-C hardware monitors, ported from Extras/HardwareGrowler
+Resources/            app icon, menu-bar icons, monitor list icons + notification icons (lossless WebP)
 ```
 
 ## Architecture notes

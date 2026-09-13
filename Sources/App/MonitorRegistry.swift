@@ -20,7 +20,9 @@ typealias HardwareMonitor = HWGrowlPluginProtocol & HWGrowlPluginNotifierProtoco
 struct MonitorInfo: Identifiable, Hashable {
     let id: String
     let displayName: String
-    let symbolName: String
+    /// Base name of a bundled .webp — the monitor's HWGPrefs* icon from the
+    /// original app, carried over for visual continuity.
+    let iconName: String
 }
 
 final class MonitorRegistry: ObservableObject {
@@ -29,6 +31,14 @@ final class MonitorRegistry: ObservableObject {
     let monitors: [MonitorInfo]
     @Published private(set) var enabledByID: [String: Bool] = [:]
 
+    private static let offByDefault: Set<String> = [
+        "KeyboardMonitor",
+        "BluetoothMonitor",
+        "TimeMachineMonitor",
+        "FirewireMonitor",
+        "PhoneMonitor"
+    ]
+
     private let plugins: [String: any HardwareMonitor]
     private var started: Set<String> = []
     private weak var controller: NotificationController?
@@ -36,19 +46,21 @@ final class MonitorRegistry: ObservableObject {
     private let disabledKey = "DisabledPlugins"
 
     private init() {
-        let specs: [(id: String, symbol: String, plugin: any HardwareMonitor)] = [
-            ("USBMonitor",         "cable.connector",        HWGrowlUSBMonitor()),
-            ("VolumeMonitor",      "externaldrive",          HWGrowlVolumeMonitor()),
-            ("NetworkMonitor",     "network",                HWGrowlNetworkMonitor()),
-            ("PowerMonitor",       "bolt.fill",              HWGrowlPowerMonitor()),
-            ("KeyboardMonitor",    "keyboard",               HWGrowlKeyboardMonitor()),
-            ("BluetoothMonitor",   "dot.radiowaves.right",   HWGrowlBluetoothMonitor()),
-            ("ThunderboltMonitor", "bolt.horizontal.circle", HWGrowlThunderboltMonitor()),
-            ("TimeMachineMonitor", "clock.arrow.circlepath", HWGrowlTimeMachineMonitor()),
+        let specs: [(id: String, icon: String, plugin: any HardwareMonitor)] = [
+            ("USBMonitor",         "HWGPrefsUSB",           HWGrowlUSBMonitor()),
+            ("VolumeMonitor",      "HWGPrefsDrivesVolumes", HWGrowlVolumeMonitor()),
+            ("NetworkMonitor",     "HWGPrefsNetwork",       HWGrowlNetworkMonitor()),
+            ("PowerMonitor",       "HWGPrefsPower",         HWGrowlPowerMonitor()),
+            ("KeyboardMonitor",    "HWGPrefsCapster",       HWGrowlKeyboardMonitor()),
+            ("BluetoothMonitor",   "HWGPrefsBluetooth",     HWGrowlBluetoothMonitor()),
+            ("ThunderboltMonitor", "HWGPrefsThunderbolt",   HWGrowlThunderboltMonitor()),
+            ("TimeMachineMonitor", "HWGPrefsTimeMachine",   HWGrowlTimeMachineMonitor()),
+            ("FirewireMonitor",    "HWGPrefsFireWire",      HWGrowlFirewireMonitor()),
+            ("PhoneMonitor",       "HWGPrefsPhone",         HWGrowlPhoneMonitor()),
         ]
 
         monitors = specs.map {
-            MonitorInfo(id: $0.id, displayName: $0.plugin.pluginDisplayName(), symbolName: $0.symbol)
+            MonitorInfo(id: $0.id, displayName: $0.plugin.pluginDisplayName(), iconName: $0.icon)
         }
         plugins = Dictionary(uniqueKeysWithValues: specs.map { ($0.id, $0.plugin) })
 
@@ -56,6 +68,8 @@ final class MonitorRegistry: ObservableObject {
         for spec in specs {
             if let disabled = disabledDict[spec.id] {
                 enabledByID[spec.id] = !disabled
+            } else if Self.offByDefault.contains(spec.id) {
+                enabledByID[spec.id] = false
             } else {
                 enabledByID[spec.id] = spec.plugin.enabledByDefault?() ?? true
             }

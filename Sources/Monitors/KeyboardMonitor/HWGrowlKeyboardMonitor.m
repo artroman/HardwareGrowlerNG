@@ -155,8 +155,8 @@ self.NAME ## Flag = NAME;
 	}
 	
 	//Check that we are enabled in the keyboard monitor's preferences
-	NSNumber *enabled = [[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKeyPath:[NSString stringWithFormat:@"hwgkeyboardkeysenabled.%@", enabledKey]];
-	if(![enabled boolValue])
+	NSDictionary *enabledDict = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"hwgkeyboardkeysenabled"];
+	if(![[enabledDict objectForKey:enabledKey] boolValue])
 		return;
 	
     NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:@"webp"];

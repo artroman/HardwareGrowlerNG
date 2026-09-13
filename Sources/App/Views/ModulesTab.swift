@@ -19,21 +19,23 @@ struct ModulesTab: View {
         HStack(spacing: 0) {
             List(selection: $selection) {
                 ForEach(registry.monitors) { monitor in
-                    HStack(spacing: 8) {
-                        Image(systemName: monitor.symbolName)
-                            .frame(width: 18)
-                            .foregroundStyle(.tint)
+                    HStack(spacing: 10) {
+                        Image(nsImage: MonitorIcon.image(named: monitor.iconName))
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 28, height: 28)
                         Text(monitor.displayName)
                         Spacer(minLength: 8)
                         Toggle("", isOn: registry.binding(for: monitor.id))
                             .labelsHidden()
                             .toggleStyle(.checkbox)
                     }
+                    .padding(.vertical, 6)
                     .tag(monitor.id)
                 }
             }
             .listStyle(.inset)
-            .frame(width: 220)
+            .frame(width: 230)
 
             Divider()
 
@@ -65,5 +67,5 @@ struct ModulesTab: View {
 #Preview("Modules") {
     ModulesTab()
         .environmentObject(MonitorRegistry.shared)
-        .frame(width: 540, height: 420)
+        .frame(width: 640, height: 510)
 }

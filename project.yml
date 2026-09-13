@@ -3,7 +3,7 @@ name: HardwareGrowlerNG
 options:
   bundleIdPrefix: com.growl
   deploymentTarget:
-    macOS: "14.0"
+    macOS: "14.6"
   createIntermediateGroups: true
   groupSortPosition: top
 
@@ -11,7 +11,7 @@ settings:
   base:
     SWIFT_VERSION: "5.0"
     MARKETING_VERSION: "3.0"
-    CURRENT_PROJECT_VERSION: "1"
+    CURRENT_PROJECT_VERSION: "2"
     # The ported monitors are all manual-retain-release Objective-C.
     CLANG_ENABLE_OBJC_ARC: NO
     # The monitors lean on 2012-era AppKit/IOKit symbols that are deprecated
@@ -36,7 +36,7 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.growl.HardwareGrowlerNG
         # Distinct from the legacy /Applications/HardwareGrowler.app during dev.
-        PRODUCT_NAME: HardwareGrowlerNG
+        PRODUCT_NAME: HardwareGrowler
         INFOPLIST_FILE: Sources/App/Info.plist
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         CODE_SIGN_ENTITLEMENTS: Sources/App/HardwareGrowlerNG.entitlements
