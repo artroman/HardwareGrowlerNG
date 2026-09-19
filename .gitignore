@@ -14,3 +14,4 @@ HardwareGrowlerNG.xcodeproj/
 # Swift Package Manager
 .build/
 .swiftpm/
+export

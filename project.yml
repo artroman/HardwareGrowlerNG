@@ -1,7 +1,7 @@
 name: HardwareGrowlerNG
 
 options:
-  bundleIdPrefix: com.growl
+  bundleIdPrefix: ru.artroman
   deploymentTarget:
     macOS: "14.6"
   createIntermediateGroups: true
@@ -10,8 +10,8 @@ options:
 settings:
   base:
     SWIFT_VERSION: "5.0"
-    MARKETING_VERSION: "3.0"
-    CURRENT_PROJECT_VERSION: "2"
+    MARKETING_VERSION: "3.1"
+    CURRENT_PROJECT_VERSION: "3"
     # The ported monitors are all manual-retain-release Objective-C.
     CLANG_ENABLE_OBJC_ARC: NO
     # The monitors lean on 2012-era AppKit/IOKit symbols that are deprecated
@@ -34,8 +34,6 @@ targets:
       - path: Resources
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.growl.HardwareGrowlerNG
-        # Distinct from the legacy /Applications/HardwareGrowler.app during dev.
         PRODUCT_NAME: HardwareGrowler
         INFOPLIST_FILE: Sources/App/Info.plist
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
@@ -50,7 +48,6 @@ targets:
         DEVELOPMENT_TEAM: XNAZEWFH6C
         PROVISIONING_PROFILE_SPECIFIER: ""
         OTHER_CODE_SIGN_FLAGS: "--options runtime"
-        MARKETING_VERSION: "3.0"
         # arm64 first; a Release build produces a universal (arm64 + x86_64) binary.
         ARCHS: "$(ARCHS_STANDARD)"
     scheme:
