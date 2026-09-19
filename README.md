@@ -33,6 +33,8 @@ open HardwareGrowlerNG.xcodeproj
 
 The `.xcodeproj` is generated and git-ignored — edit `project.yml`, not the project.
 
+To compress the notarized build run `ditto -c -k --keepParent HardwareGrowler.app HardwareGrowler.zip` on the exported app.
+
 ## Layout
 
 ```
